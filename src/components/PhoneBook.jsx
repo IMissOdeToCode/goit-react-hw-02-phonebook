@@ -1,5 +1,7 @@
 import { Component } from 'react';
 import { nanoid } from 'nanoid';
+import Notiflix from 'notiflix';
+
 // import PropTypes from 'prop-types';
 
 import css from './PhoneBook.module.scss';
@@ -24,11 +26,25 @@ class PhoneBook extends Component {
     });
   };
 
+  isDublicate(name) {
+    const normalizedName = name.toLowerCase();
+    const { contacts } = this.state;
+    const q = contacts.find(({ name }) => {
+      return name.toLowerCase() === normalizedName;
+    });
+
+    return Boolean(q);
+  }
+
   addContact = event => {
     event.preventDefault();
     console.log('click');
     this.setState(prevState => {
       const { contacts, name, number } = prevState;
+
+      if (this.isDublicate(name)) {
+        return Notiflix.Notify.failure('name already exists');
+      }
       const newContact = {
         id: nanoid(),
         name,
@@ -38,6 +54,14 @@ class PhoneBook extends Component {
       return { contacts: [...contacts, newContact], name: '', number: '' };
     });
   };
+
+  removeContact(id) {
+    this.setState(({ contacts }) => {
+      const newContacts = contacts.filter(contact => contact.id !== id);
+
+      return { contacts: newContacts };
+    });
+  }
 
   getFilteredContacts() {
     const { filter, contacts } = this.state;
@@ -60,6 +84,14 @@ class PhoneBook extends Component {
     const contactsList = contacts.map(({ id, name, number }) => (
       <li key={id}>
         {name} {number}
+        <button
+          type="button"
+          onClick={() => {
+            this.removeContact(id);
+          }}
+        >
+          delete
+        </button>
       </li>
     ));
 
@@ -80,7 +112,7 @@ class PhoneBook extends Component {
               required
             />
 
-            <label htmlFor="number">Name</label>
+            <label htmlFor="number">Number</label>
             <input
               id="number"
               value={number}
