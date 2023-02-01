@@ -76,14 +76,14 @@ class PhoneBook extends Component {
     const isContacts = Boolean(contacts.length);
 
     return (
-      <div>
+      <div className={css.wrapper}>
         <div className={css.block}>
-          <h1>Phonebook</h1>
+          <h1 className={css.header}>Phonebook</h1>
           <ContactsForm onSubmit={addContact} />
         </div>
 
         <div className={css.block}>
-          <h2>Contacts</h2>
+          <h2 className={css.header}>Contacts</h2>
           <ContactsFilter handleChange={handleFilter} />
 
           {isContacts && (
@@ -92,7 +92,7 @@ class PhoneBook extends Component {
               removeContact={removeContact}
             />
           )}
-          {!isContacts && <p>No contacts in list</p>}
+          {!isContacts && <p className={css.header}>No contacts in list</p>}
         </div>
       </div>
     );

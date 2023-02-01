@@ -1,12 +1,16 @@
 import PropTypes from 'prop-types';
 
-// import css from './PhoneBook.module.scss';
+import css from './PhoneBook.module.scss';
 
 const ContactsList = ({ contacts, removeContact }) => {
   const contactsList = contacts.map(({ id, name, number }) => (
-    <li key={id}>
+    <li
+      className={css.contactItem}
+      key={id}
+    >
       {name} {number}
       <button
+        className={css.delButton}
         type="button"
         onClick={() => removeContact(id)}
       >
@@ -15,7 +19,7 @@ const ContactsList = ({ contacts, removeContact }) => {
     </li>
   ));
 
-  return <ul>{contactsList}</ul>;
+  return <ul className={css.contactsList}>{contactsList}</ul>;
 };
 
 export default ContactsList;

@@ -1,9 +1,17 @@
 import PropTypes from 'prop-types';
 
+import css from './PhoneBook.module.scss';
+
 const ContactsFilter = ({ handleChange }) => (
-  <div>
-    <label htmlFor="filter">Find contacts by name</label>
+  <div className={css.filterInputGroup}>
+    <label
+      className={css.labelFilter}
+      htmlFor="filter"
+    >
+      Find contacts by name
+    </label>
     <input
+      className={css.input}
       id="filter"
       onChange={handleChange}
       type="text"
